@@ -8,17 +8,19 @@
 import UIKit
 import SceneKit
 import ARKit
+import CoreLocation
 
 class ViewController: UIViewController, ARSCNViewDelegate {
+    @IBOutlet private var sceneView: ARSCNView!
+    private let locationManager = CLLocationManager()
 
-    let latitude: CGFloat = 53.3498
-    let longitude: CGFloat = -6.2603
-
-    @IBOutlet var sceneView: ARSCNView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        locationManager.delegate = self
+
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+
         // Set the view's delegate
         sceneView.delegate = self
         
@@ -28,14 +30,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Set the scene to the view
         sceneView.scene = scene
 
-        // Earth's texture from https://commons.wikimedia.org/wiki/File:Solarsystemscope_texture_8k_earth_daymap.jpg
-
-        if let earthNode = scene.rootNode.childNode(withName: "earth", recursively: false) {
-            earthNode.runAction(SCNAction.rotate(by: -longitude * .pi/180.0, around: SCNVector3(0, 1, 0), duration: 0))
-            earthNode.runAction(SCNAction.rotate(by: (-(90.0 - latitude)) * .pi/180.0, around: SCNVector3(1, 0, 0), duration: 0))
-        }
-
-        sceneView.pointOfView?.camera?.zFar = 15000.0
+        updateCoordinates(latitude: 0, longitude: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +50,23 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Pause the view's session
         sceneView.session.pause()
+    }
+
+    private func updateCoordinates(latitude: Float, longitude: Float) {
+        let scene = sceneView.scene
+
+        guard let earthNode = scene.rootNode.childNode(withName: "earth", recursively: false),
+            let earthRadius = (earthNode.geometry as? SCNSphere)?.radius
+        else {
+            return
+        }
+
+        let longitudeRotation = SCNMatrix4Rotate(SCNMatrix4Identity, -longitude * .pi/180.0, 0, 1, 0)
+        let latitudeRotation = SCNMatrix4Rotate(longitudeRotation, (-(90.0 - latitude)) * .pi/180.0, 1, 0, 0)
+        let translation = SCNMatrix4Translate(latitudeRotation, 0, -(Float(earthRadius) + 1), 0)
+        earthNode.transform = translation
+
+        sceneView.pointOfView?.camera?.zFar = 2.5 * earthRadius
     }
 
     // MARK: - ARSCNViewDelegate
@@ -81,5 +93,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     func sessionInterruptionEnded(_ session: ARSession) {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
+    }
+}
+
+extension ViewController: CLLocationManagerDelegate {
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let firstLocation = locations.first else { return }
+        updateCoordinates(
+            latitude: Float(firstLocation.coordinate.latitude),
+            longitude: Float(firstLocation.coordinate.longitude)
+        )
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Unable to get location: \(error)")
     }
 }

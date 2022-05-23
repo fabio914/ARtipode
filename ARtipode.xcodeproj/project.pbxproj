@@ -16,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EF9369C1283C569500BE40A0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		EF9FDE4C283C3C2A002EF6B8 /* ARtipode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARtipode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9FDE4F283C3C2A002EF6B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF9FDE51283C3C2A002EF6B8 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -39,6 +40,7 @@
 		EF9FDE43283C3C2A002EF6B8 = {
 			isa = PBXGroup;
 			children = (
+				EF9369C1283C569500BE40A0 /* README.md */,
 				EF9FDE4E283C3C2A002EF6B8 /* ARtipode */,
 				EF9FDE4D283C3C2A002EF6B8 /* Products */,
 			);
@@ -290,6 +292,7 @@
 				DEVELOPMENT_TEAM = ZTJ55TM37B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "ARpode uses your location to update your position on the globe.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -321,6 +324,7 @@
 				DEVELOPMENT_TEAM = ZTJ55TM37B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "ARpode uses your location to update your position on the globe.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

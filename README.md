@@ -1,9 +1,9 @@
 
 <img src="Images/icon.png" width="100" />
 
-# ARtipodes
+# ARtipode
 
-ARtipodes is an Augmented Reality app that shows you what the Earth looks like under your feet. In other words, you can visualize your local [antipodes](https://en.wikipedia.org/wiki/Antipodes).
+ARtipode is an Augmented Reality app that shows you what the Earth looks like under your feet. In other words, you can visualize your local [antipodes](https://en.wikipedia.org/wiki/Antipodes).
 
 ## Requirements
 
