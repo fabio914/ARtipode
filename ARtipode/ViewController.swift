@@ -61,9 +61,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             return
         }
 
-        let longitudeRotation = SCNMatrix4Rotate(SCNMatrix4Identity, -longitude * .pi/180.0, 0, 1, 0)
-        let latitudeRotation = SCNMatrix4Rotate(longitudeRotation, (-(90.0 - latitude)) * .pi/180.0, 1, 0, 0)
-        let translation = SCNMatrix4Translate(latitudeRotation, 0, -(Float(earthRadius) + 1), 0)
+        let latitudeRotation = SCNMatrix4Rotate(SCNMatrix4Identity, (-(90.0 - latitude)) * .pi/180.0, 1, 0, 0)
+        let longitudeRotation = SCNMatrix4Rotate(latitudeRotation, -longitude * .pi/180.0, 0, 1, 0)
+        let translation = SCNMatrix4Translate(longitudeRotation, 0, -(Float(earthRadius) + 1), 0)
         earthNode.transform = translation
 
         sceneView.pointOfView?.camera?.zFar = 2.5 * earthRadius
@@ -104,6 +104,8 @@ extension ViewController: CLLocationManagerDelegate {
             latitude: Float(firstLocation.coordinate.latitude),
             longitude: Float(firstLocation.coordinate.longitude)
         )
+
+        manager.stopUpdatingLocation()
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
